@@ -46,8 +46,8 @@ unicode_expressions = ["unicode-segmentation"]
 [dependencies]
 ahash = "0.7"
 hashbrown = "0.11"
-arrow = { version = "4.4", features = ["prettyprint"] }
-parquet = { version = "4.4", features = ["arrow"] }
+arrow = { git = "https://github.com/Qbeast-io/arrow-rs", package = "arrow", branch = "WebAssembly"}
+parquet = { git = "https://github.com/Qbeast-io/arrow-rs", package = "parquet", branch = "WebAssembly", default_features=false, features=["arrow", "snap", "base64"]}
 sqlparser = "0.9.0"
 paste = "^1.0"
 num_cpus = "1.13.0"
@@ -99,3 +99,9 @@ harness = false
 [[bench]]
 name = "physical_plan"
 harness = false
+
+
+[profile.release]
+opt-level = 1
+incremental = true
+
