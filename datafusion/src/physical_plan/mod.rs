@@ -122,6 +122,7 @@ impl SQLMetric {
 
 /// Physical planner interface
 pub use self::planner::PhysicalPlanner;
+use std::iter::FromIterator;
 
 /// `ExecutionPlan` represent nodes in the DataFusion Physical Plan.
 ///
@@ -499,15 +500,12 @@ pub trait WindowExpr: Send + Sync + Debug {
         num_rows: usize,
         partition_columns: &[SortColumn],
     ) -> Result<Vec<Range<usize>>> {
-        if partition_columns.is_empty() {
+
             Ok(vec![Range {
                 start: 0,
                 end: num_rows,
             }])
-        } else {
-            lexicographical_partition_ranges(partition_columns)
-                .map_err(DataFusionError::ArrowError)
-        }
+
     }
 
     /// expressions that's from the window function's partition by clause, empty if absent
